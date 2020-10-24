@@ -14,6 +14,7 @@
 //
 // mongoose.connect(<Your URI>, { useNewUrlParser: true, useUnifiedTopology: true }); 
 const mongoose = require("mongoose);
+const Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGOURI);
                         
 
@@ -42,8 +43,14 @@ mongoose.connect(process.env.MONGOURI);
 // `default` values. See the [mongoose docs](http://mongoosejs.com/docs/guide.html).
 
 // <Your code here >
+var person = new Schema({
+  name: {type: String, required: true},
+  age: Number,
+  favoriteFoods: [String]
+});
 
-var Person /* = <Your Model> */
+const Person = mongoose.model("Person", person);
+
 
 // **Note**: Glitch is a real server, and in real servers interactions with
 // the db are placed in handler functions, to be called when some event happens
@@ -81,12 +88,21 @@ var Person /* = <Your Model> */
 // });
 
 var createAndSavePerson = function(done) {
-  
-  done(null /*, data*/);
+  var annaRichardson = new Person({name: "Anna Richardson", age: 50, favoriteFoods: ["Pasta", "Beans"]});
+  annaRichardson.save(function(err, data) {
+    if (err) return console.log(err);
+    done(null, data);
+  });
 
 };
 
 /** 4) Create many People with `Model.create()` */
+
+var arrayOfPeople = [
+  {name: "Daphne", age: 55, favoriteFoods: ["Pasta", "Pizza"]},
+  {name: "Gayle", age: 50, favoriteFoods: ["Fish", "Broccoli"]},
+  {name: "Brian", age: 60, favoriteFoods: ["Bacon"]}
+];
 
 // Sometimes you need to create many Instances of your Models,
 // e.g. when seeding a database with initial data. `Model.create()`
@@ -96,9 +112,15 @@ var createAndSavePerson = function(done) {
 // Model.create() with the argument arrayOfPeople.
 // Note: You can reuse the model you instantiated in the previous exercise.
 
+
+
+
 var createManyPeople = function(arrayOfPeople, done) {
-    
-    done(null/*, data*/);
+   Person.create(arrayOfPeople, function(err, people) {
+     if (err) return console.log(err);
+      done(null, people);
+   });
+   
     
 };
 
@@ -114,8 +136,11 @@ var createManyPeople = function(arrayOfPeople, done) {
 // Use the function argument `personName` as search key.
 
 var findPeopleByName = function(personName, done) {
+  Person.find({name:personName}, function(err, personFound) {
+    if (err) return console.log(err);
+    done(null, personFound);
+  });
   
-  done(null/*, data*/);
 
 };
 

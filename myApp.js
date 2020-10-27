@@ -251,8 +251,11 @@ var findAndUpdate = function(personName, done) {
 // As usual, use the function argument `personId` as search key.
 
 var removeById = function(personId, done) {
-  
-  done(null/*, data*/);
+
+  Person.findByIdAndRemove(personId, function(err, removedDoc) {
+    if (err) return console.log(err);
+    done(null, removedDoc);
+  });
     
 };
 

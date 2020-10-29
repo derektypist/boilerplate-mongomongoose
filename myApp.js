@@ -13,9 +13,9 @@
 // as MONGO_URI. Connect to the database using the following syntax:
 //
 // mongoose.connect(<Your URI>, { useNewUrlParser: true, useUnifiedTopology: true }); 
-const mongoose = require("mongoose);
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-mongoose.connect(process.env.MONGOURI);
+mongoose.connect(process.env.MONGO_URI);
                         
 
 
